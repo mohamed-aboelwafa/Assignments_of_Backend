@@ -1,15 +1,13 @@
-const mongoose = require("mongoose");
+const { MongoClient } = require("mongodb");
 
-mongoose.connect("mongodb://127.0.0.1:27017/assignment8")
-.then(()=>{
+const client = new MongoClient(process.env.MONGO_URI);
+
+async function connectDB() {
+    await client.connect();
 
     console.log("MongoDB Connected");
 
-})
-.catch((err)=>{
+    return client.db(process.env.DB_NAME);
+}
 
-    console.log(err);
-
-});
-
-module.exports = mongoose;
+module.exports = { client, connectDB };
